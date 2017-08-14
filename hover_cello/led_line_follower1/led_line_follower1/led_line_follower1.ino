@@ -7,9 +7,11 @@
 #include "Wire.h"
 #include "sensorbar.h"
 
+//Set motor start/stop pins 
+int motor1_pin = 2;
+int motor2_pin = 4;
 
-//
-
+//Set I2C address as per hardware jumpers
 const uint8_t SX1509_ADDRESS = 0x3E;  // SX1509 I2C address (00)
 //const byte SX1509_ADDRESS = 0x3F;  // SX1509 I2C address (01)
 //const byte SX1509_ADDRESS = 0x70;  // SX1509 I2C address (10)
@@ -48,9 +50,9 @@ void setup()
   }
   Serial.println();
   
-  //Setting output pinmode for LED indicators
-  pinMode(2, OUTPUT);
-  pinMode(4, OUTPUT);
+  //Setting output pinmode for motor start/stop
+  pinMode(motor1_pin, OUTPUT);
+  pinMode(motor2_pin, OUTPUT);
   
 }
 
@@ -81,24 +83,56 @@ void follow_line(int raw)
    int temp = raw;
    
    //Remove the last bit on the extreme left and right
-   //126d == 01111110
+   //d126 == 01111110
    temp = temp & 126;
    
-   //Remove the last two bits on the extreme left and right
-   //60d == 00111100
+   //Or remove the last two bits on the extreme left and right
+   //(Dont do this just now, it wont work)
+   //d60 == 00111100
    //temp = temp & 60;
    
-   bitwise_int_print(temp & 24);
+   //bitwise_int_print(temp & 255);
+
+   //If the robot is off the ground
+   //d126 == 01111110
+   if ( (temp & 126) == 126 )
+   {
+      Serial.println("robot is off the ground");
+      digitalWrite(motor1_pin, LOW);  //Turn off left motor
+      digitalWrite(motor2_pin, LOW);  //Turn off right motor
+   }
   
    //First lets set the centered state, with both motors running
-   if (temp & 24 == 24)
+   //d24 == 00011000
+   //d126 == 01111110
+   else if ( (temp & 24) == 24 )
    {
-       Serial.println("centered!!!");
+       Serial.println("centered");
+       digitalWrite(motor1_pin, HIGH);  //Turn on left motor
+       digitalWrite(motor2_pin, HIGH);  //Turn on right motor
    }
      
+   //Now for the states where we correct right
+   //d16 == 00010000
+   //d32 == 00100000
+   //d64 == 01000000
+   else if ( ((temp & 16) == 16)||((temp & 32) == 32)||((temp & 64) == 64) )
+   {
+      Serial.println("correcting right");
+      digitalWrite(motor1_pin, LOW);  //Turn on left motor
+      digitalWrite(motor2_pin, HIGH);  //Turn on right motor
+   }
   
-  
-  
+   //Now for the states where we correct left
+   //d8 == 00001000
+   //d4 == 00000100
+   //d2 == 00000010
+   else if ( ((temp & 8) == 8)||((temp & 4) == 4)||((temp & 2) == 2) )
+   {
+      Serial.println("correcting left");
+      digitalWrite(motor1_pin, HIGH);  //Turn on left motor
+      digitalWrite(motor2_pin, LOW);  //Turn on right motor
+   }
 }
 
 
