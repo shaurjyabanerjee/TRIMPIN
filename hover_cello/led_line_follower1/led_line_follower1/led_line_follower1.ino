@@ -90,7 +90,8 @@ void follow_line(int raw)
    //(Dont do this just now, it wont work)
    //d60 == 00111100
    //temp = temp & 60;
-   
+
+   //Debug expressions
    //bitwise_int_print(temp & 255);
 
    //If the robot is off the ground
@@ -103,8 +104,7 @@ void follow_line(int raw)
    }
   
    //First lets set the centered state, with both motors running
-   //d24 == 00011000
-   //d126 == 01111110
+   //d24  == 00011000
    else if ( (temp & 24) == 24 )
    {
        Serial.println("centered");
@@ -135,4 +135,19 @@ void follow_line(int raw)
    }
 }
 
+//Function to check extreme left and right for performance markers
+void check_markers (int raw)
+{
+    //Check extreme left for performance marker
+    if ( (raw & 128) == 128 )
+    {
+       Serial.println("left performance marker");
+    }
+
+    //Check extreme right for performance marker
+    if ( (raw & 128) == 128 )
+    {
+       Serial.println("right performance marker");
+    }
+}
 
