@@ -389,6 +389,76 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </package>
 </packages>
 </library>
+<library name="40xx" urn="urn:adsk.eagle:library:80">
+<description>&lt;b&gt;CMOS Logic Devices, 4000 Series&lt;/b&gt;&lt;p&gt;
+Based on the following sources:
+&lt;ul&gt;
+&lt;li&gt;Motorola &lt;i&gt;CMOS LOGIC DATA&lt;/i&gt;; book, 02/88, DL131 REV 1
+&lt;li&gt;http://www.elexp.com
+&lt;li&gt;http://www.intersil.com
+&lt;li&gt;http://www.ls3c.com.tw/product/1/COMOS.html
+&lt;/ul&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="DIL14" library_version="1">
+<description>&lt;b&gt;Dual In Line Package&lt;/b&gt;</description>
+<wire x1="8.89" y1="2.921" x2="-8.89" y2="2.921" width="0.1524" layer="21"/>
+<wire x1="-8.89" y1="-2.921" x2="8.89" y2="-2.921" width="0.1524" layer="21"/>
+<wire x1="8.89" y1="2.921" x2="8.89" y2="-2.921" width="0.1524" layer="21"/>
+<wire x1="-8.89" y1="2.921" x2="-8.89" y2="1.016" width="0.1524" layer="21"/>
+<wire x1="-8.89" y1="-2.921" x2="-8.89" y2="-1.016" width="0.1524" layer="21"/>
+<wire x1="-8.89" y1="1.016" x2="-8.89" y2="-1.016" width="0.1524" layer="21" curve="-180"/>
+<pad name="1" x="-7.62" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="2" x="-5.08" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="7" x="7.62" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="8" x="7.62" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="3" x="-2.54" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="4" x="0" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="6" x="5.08" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="5" x="2.54" y="-3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="9" x="5.08" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="10" x="2.54" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="11" x="0" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="12" x="-2.54" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="13" x="-5.08" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<pad name="14" x="-7.62" y="3.81" drill="0.8128" shape="long" rot="R90"/>
+<text x="-9.271" y="-3.048" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="-6.731" y="-0.635" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
+</packages>
+</library>
+<library name="linear">
+<description>&lt;b&gt;Linear Devices&lt;/b&gt;&lt;p&gt;
+Operational amplifiers,  comparators, voltage regulators, ADCs, DACs, etc.&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="TO220V">
+<description>&lt;b&gt;TO 200 vertical&lt;/b&gt;</description>
+<wire x1="5.08" y1="-1.143" x2="4.953" y2="-4.064" width="0.127" layer="21"/>
+<wire x1="4.699" y1="-4.318" x2="4.953" y2="-4.064" width="0.127" layer="21"/>
+<wire x1="4.699" y1="-4.318" x2="-4.699" y2="-4.318" width="0.127" layer="21"/>
+<wire x1="-4.953" y1="-4.064" x2="-4.699" y2="-4.318" width="0.127" layer="21"/>
+<wire x1="-4.953" y1="-4.064" x2="-5.08" y2="-1.143" width="0.127" layer="21"/>
+<circle x="-4.4958" y="-3.7084" radius="0.254" width="0.127" layer="21"/>
+<pad name="1" x="-2.54" y="-2.54" drill="1.016" shape="long" rot="R90"/>
+<pad name="2" x="0" y="-2.54" drill="1.016" shape="long" rot="R90"/>
+<pad name="3" x="2.54" y="-2.54" drill="1.016" shape="long" rot="R90"/>
+<text x="-5.08" y="-6.0452" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-5.08" y="-7.62" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<text x="-3.175" y="-3.175" size="1.27" layer="51" ratio="10">1</text>
+<text x="-0.635" y="-3.175" size="1.27" layer="51" ratio="10">2</text>
+<text x="1.905" y="-3.175" size="1.27" layer="51" ratio="10">3</text>
+<rectangle x1="-5.334" y1="-0.762" x2="5.334" y2="0" layer="21"/>
+<rectangle x1="-5.334" y1="-1.27" x2="-3.429" y2="-0.762" layer="21"/>
+<rectangle x1="-1.651" y1="-1.27" x2="-0.889" y2="-0.762" layer="21"/>
+<rectangle x1="-3.429" y1="-1.27" x2="-1.651" y2="-0.762" layer="51"/>
+<rectangle x1="0.889" y1="-1.27" x2="1.651" y2="-0.762" layer="21"/>
+<rectangle x1="3.429" y1="-1.27" x2="5.334" y2="-0.762" layer="21"/>
+<rectangle x1="-0.889" y1="-1.27" x2="0.889" y2="-0.762" layer="51"/>
+<rectangle x1="1.651" y1="-1.27" x2="3.429" y2="-0.762" layer="51"/>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -580,20 +650,23 @@ design rules under a new name.</description>
 <elements>
 <element name="U$1" library="adafruit" package="PROTRINKET" value="PRO_TRINKET" x="19.05" y="13.97"/>
 <element name="LINE_SENSOR" library="pinhead" package="2X03" value="" x="40.64" y="31.75" rot="R270"/>
-<element name="MOTOR1" library="GeekAmmo" package="06X1-PTH" value="" x="0" y="-7.62">
-<attribute name="DIGIKEY" value="" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="ELEMENT14" value="" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="OTHER" value="4UCON 00834" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
+<element name="MOTOR1" library="GeekAmmo" package="06X1-PTH" value="" x="12.7" y="60.96" rot="R90">
+<attribute name="DIGIKEY" value="" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="ELEMENT14" value="" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="OTHER" value="4UCON 00834" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="MOTOR2" library="GeekAmmo" package="06X1-PTH" value="" x="0" y="-22.86">
-<attribute name="DIGIKEY" value="" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="ELEMENT14" value="" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="OTHER" value="4UCON 00834" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
+<element name="MOTOR2" library="GeekAmmo" package="06X1-PTH" value="" x="26.67" y="60.96" rot="R90">
+<attribute name="DIGIKEY" value="" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="ELEMENT14" value="" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="OTHER" value="4UCON 00834" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="J1" library="jumper" package="SJW" value="" x="-19.05" y="-25.4"/>
-<element name="J2" library="jumper" package="SJW" value="" x="-26.67" y="-25.4"/>
+<element name="J1" library="jumper" package="SJW" value="" x="12.7" y="48.26" rot="R270"/>
+<element name="J2" library="jumper" package="SJW" value="" x="26.67" y="48.26" rot="R270"/>
+<element name="IC1" library="40xx" library_urn="urn:adsk.eagle:library:80" package="DIL14" value="40106N" x="15.24" y="-11.43"/>
+<element name="IC2" library="40xx" library_urn="urn:adsk.eagle:library:80" package="DIL14" value="40106N" x="15.24" y="-33.02"/>
+<element name="IC3" library="linear" package="TO220V" value="7805TV" x="10.16" y="-49.53"/>
 </elements>
 <signals>
 <signal name="BAT+">
@@ -603,22 +676,26 @@ design rules under a new name.</description>
 <contactref element="U$1" pad="GND"/>
 <contactref element="LINE_SENSOR" pad="5"/>
 <contactref element="LINE_SENSOR" pad="6"/>
+<contactref element="MOTOR2" pad="1"/>
+<contactref element="MOTOR1" pad="1"/>
+<wire x1="12.7" y1="54.61" x2="26.67" y2="54.61" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="34.671" x2="26.67" y2="54.61" width="0" layer="19" extent="1-1"/>
+<wire x1="39.37" y1="29.21" x2="26.67" y2="34.671" width="0" layer="19" extent="1-1"/>
 <wire x1="41.91" y1="29.21" x2="39.37" y2="29.21" width="0" layer="19" extent="1-1"/>
-<wire x1="26.67" y1="34.671" x2="41.91" y2="29.21" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="USB">
 <contactref element="U$1" pad="USB"/>
 </signal>
 <signal name="VCC">
-<contactref element="U$1" pad="VCC"/>
 <contactref element="LINE_SENSOR" pad="3"/>
 <contactref element="LINE_SENSOR" pad="4"/>
 <contactref element="J1" pad="2"/>
 <contactref element="J2" pad="2"/>
+<contactref element="U$1" pad="VCC"/>
 <wire x1="39.37" y1="31.75" x2="41.91" y2="31.75" width="0" layer="19" extent="1-1"/>
 <wire x1="26.67" y1="29.591" x2="39.37" y2="31.75" width="0" layer="19" extent="1-1"/>
-<wire x1="-17.78" y1="-25.4" x2="26.67" y2="29.591" width="0" layer="19" extent="1-1"/>
-<wire x1="-25.4" y1="-25.4" x2="-17.78" y2="-25.4" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="46.99" x2="26.67" y2="29.591" width="0" layer="19" extent="1-1"/>
+<wire x1="12.7" y1="46.99" x2="26.67" y2="46.99" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SDA">
 <contactref element="LINE_SENSOR" pad="1"/>
@@ -631,16 +708,53 @@ design rules under a new name.</description>
 <wire x1="11.43" y1="9.271" x2="41.91" y2="34.29" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
-<contactref element="MOTOR1" pad="1"/>
+<contactref element="MOTOR1" pad="6"/>
 <contactref element="J1" pad="1"/>
-<wire x1="-6.35" y1="-7.62" x2="-20.32" y2="-25.4" width="0" layer="19" extent="1-1"/>
+<wire x1="12.7" y1="49.53" x2="12.7" y2="67.31" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$2">
-<contactref element="MOTOR2" pad="1"/>
+<contactref element="MOTOR2" pad="6"/>
 <contactref element="J2" pad="1"/>
-<wire x1="-6.35" y1="-22.86" x2="-27.94" y2="-25.4" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="49.53" x2="26.67" y2="67.31" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="M1_DIRECTION">
+<contactref element="MOTOR1" pad="3"/>
+<contactref element="U$1" pad="4"/>
+<wire x1="26.67" y1="19.431" x2="12.7" y2="59.69" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="M1_ENABLE">
+<contactref element="MOTOR1" pad="5"/>
+<contactref element="U$1" pad="3"/>
+<wire x1="26.67" y1="16.891" x2="12.7" y2="64.77" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="M2_ENABLE">
+<contactref element="MOTOR2" pad="5"/>
+<contactref element="U$1" pad="5"/>
+<wire x1="26.67" y1="21.971" x2="26.67" y2="64.77" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="M2_DIRECTION">
+<contactref element="MOTOR2" pad="3"/>
+<contactref element="U$1" pad="6"/>
+<wire x1="26.67" y1="24.511" x2="26.67" y2="59.69" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="VSS">
+<contactref element="IC1" pad="7"/>
+<contactref element="IC2" pad="7"/>
+<wire x1="22.86" y1="-15.24" x2="22.86" y2="-36.83" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="VDD">
+<contactref element="IC1" pad="14"/>
+<contactref element="IC2" pad="14"/>
+<wire x1="7.62" y1="-7.62" x2="7.62" y2="-29.21" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 </board>
 </drawing>
+<compatibility>
+<note version="8.2" severity="warning">
+Since Version 8.2, Eagle supports online libraries. The ids
+of those online libraries will not be understood (or retained)
+with this version.
+</note>
+</compatibility>
 </eagle>

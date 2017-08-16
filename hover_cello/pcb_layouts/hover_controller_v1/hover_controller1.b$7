@@ -346,6 +346,49 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </package>
 </packages>
 </library>
+<library name="jumper">
+<description>&lt;b&gt;Jumpers&lt;/b&gt;&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="SJW">
+<description>&lt;b&gt;Solder jumper&lt;/b&gt;</description>
+<wire x1="1.905" y1="-1.524" x2="-1.905" y2="-1.524" width="0.1524" layer="21"/>
+<wire x1="1.905" y1="1.524" x2="2.159" y2="1.27" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-2.159" y1="1.27" x2="-1.905" y2="1.524" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-2.159" y1="-1.27" x2="-1.905" y2="-1.524" width="0.1524" layer="21" curve="90"/>
+<wire x1="1.905" y1="-1.524" x2="2.159" y2="-1.27" width="0.1524" layer="21" curve="90"/>
+<wire x1="2.159" y1="-1.27" x2="2.159" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-2.159" y1="-1.27" x2="-2.159" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-1.905" y1="1.524" x2="1.905" y2="1.524" width="0.1524" layer="21"/>
+<wire x1="0.762" y1="0.762" x2="0.762" y2="-0.762" width="0.1524" layer="51"/>
+<wire x1="-0.762" y1="0.762" x2="-0.762" y2="-0.762" width="0.1524" layer="51"/>
+<wire x1="1.524" y1="0" x2="2.032" y2="0" width="0.1524" layer="51"/>
+<wire x1="-1.524" y1="0" x2="-2.032" y2="0" width="0.1524" layer="51"/>
+<wire x1="0.762" y1="0.762" x2="0.762" y2="-0.762" width="0.1524" layer="51" curve="-180"/>
+<wire x1="-0.762" y1="0.762" x2="-0.762" y2="-0.762" width="0.1524" layer="51" curve="180"/>
+<smd name="1" x="-1.27" y="0" dx="1.27" dy="2.54" layer="1"/>
+<smd name="2" x="1.27" y="0" dx="1.27" dy="2.54" layer="1"/>
+<text x="-2.159" y="1.778" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="1" y="0" size="0.02" layer="27">&gt;VALUE</text>
+<rectangle x1="0.762" y1="-0.762" x2="1.016" y2="0.762" layer="51"/>
+<rectangle x1="1.016" y1="-0.635" x2="1.27" y2="0.635" layer="51"/>
+<rectangle x1="1.27" y1="-0.508" x2="1.397" y2="0.508" layer="51"/>
+<rectangle x1="1.397" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<rectangle x1="-1.016" y1="-0.762" x2="-0.762" y2="0.762" layer="51"/>
+<rectangle x1="-1.27" y1="-0.635" x2="-1.016" y2="0.635" layer="51"/>
+<rectangle x1="-1.397" y1="-0.508" x2="-1.27" y2="0.508" layer="51"/>
+<rectangle x1="-1.524" y1="-0.254" x2="-1.397" y2="0.254" layer="51"/>
+<rectangle x1="0.9652" y1="-0.7112" x2="1.0922" y2="-0.5842" layer="51"/>
+<rectangle x1="1.3462" y1="-0.3556" x2="1.4732" y2="-0.2286" layer="51"/>
+<rectangle x1="1.3462" y1="0.2032" x2="1.4732" y2="0.3302" layer="51"/>
+<rectangle x1="0.9652" y1="0.5842" x2="1.0922" y2="0.7112" layer="51"/>
+<rectangle x1="-1.0922" y1="-0.7112" x2="-0.9652" y2="-0.5842" layer="51"/>
+<rectangle x1="-1.4478" y1="-0.3302" x2="-1.3208" y2="-0.2032" layer="51"/>
+<rectangle x1="-1.4732" y1="0.2032" x2="-1.3462" y2="0.3302" layer="51"/>
+<rectangle x1="-1.1176" y1="0.5842" x2="-0.9906" y2="0.7112" layer="51"/>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -537,18 +580,20 @@ design rules under a new name.</description>
 <elements>
 <element name="U$1" library="adafruit" package="PROTRINKET" value="PRO_TRINKET" x="19.05" y="13.97"/>
 <element name="LINE_SENSOR" library="pinhead" package="2X03" value="" x="40.64" y="31.75" rot="R270"/>
-<element name="MOTOR1" library="GeekAmmo" package="06X1-PTH" value="" x="0" y="-7.62">
-<attribute name="DIGIKEY" value="" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="ELEMENT14" value="" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="OTHER" value="4UCON 00834" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
-<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="0" y="-7.62" size="1.778" layer="27" display="off"/>
+<element name="MOTOR1" library="GeekAmmo" package="06X1-PTH" value="" x="12.7" y="60.96" rot="R90">
+<attribute name="DIGIKEY" value="" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="ELEMENT14" value="" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="OTHER" value="4UCON 00834" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="12.7" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="MOTOR2" library="GeekAmmo" package="06X1-PTH" value="" x="0" y="-22.86">
-<attribute name="DIGIKEY" value="" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="ELEMENT14" value="" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="OTHER" value="4UCON 00834" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
-<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="0" y="-22.86" size="1.778" layer="27" display="off"/>
+<element name="MOTOR2" library="GeekAmmo" package="06X1-PTH" value="" x="26.67" y="60.96" rot="R90">
+<attribute name="DIGIKEY" value="" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="ELEMENT14" value="" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="OTHER" value="4UCON 00834" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="URL" value="http://www.4uconnector.com/online/SearchPro.asp?FormName=ProSearch&amp;FormAction=search&amp;s_GroupNo=&amp;s_keyword=00834" x="26.67" y="60.96" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
+<element name="J1" library="jumper" package="SJW" value="" x="12.7" y="48.26" rot="R270"/>
+<element name="J2" library="jumper" package="SJW" value="" x="26.67" y="48.26" rot="R270"/>
 </elements>
 <signals>
 <signal name="BAT+">
@@ -558,18 +603,26 @@ design rules under a new name.</description>
 <contactref element="U$1" pad="GND"/>
 <contactref element="LINE_SENSOR" pad="5"/>
 <contactref element="LINE_SENSOR" pad="6"/>
+<contactref element="MOTOR2" pad="1"/>
+<contactref element="MOTOR1" pad="1"/>
+<wire x1="12.7" y1="54.61" x2="26.67" y2="54.61" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="34.671" x2="26.67" y2="54.61" width="0" layer="19" extent="1-1"/>
+<wire x1="39.37" y1="29.21" x2="26.67" y2="34.671" width="0" layer="19" extent="1-1"/>
 <wire x1="41.91" y1="29.21" x2="39.37" y2="29.21" width="0" layer="19" extent="1-1"/>
-<wire x1="26.67" y1="34.671" x2="41.91" y2="29.21" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="USB">
 <contactref element="U$1" pad="USB"/>
 </signal>
 <signal name="VCC">
-<contactref element="U$1" pad="VCC"/>
 <contactref element="LINE_SENSOR" pad="3"/>
 <contactref element="LINE_SENSOR" pad="4"/>
-<wire x1="41.91" y1="31.75" x2="39.37" y2="31.75" width="0" layer="19" extent="1-1"/>
-<wire x1="26.67" y1="29.591" x2="41.91" y2="31.75" width="0" layer="19" extent="1-1"/>
+<contactref element="J1" pad="2"/>
+<contactref element="J2" pad="2"/>
+<contactref element="U$1" pad="VCC"/>
+<wire x1="39.37" y1="31.75" x2="41.91" y2="31.75" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="29.591" x2="39.37" y2="31.75" width="0" layer="19" extent="1-1"/>
+<wire x1="26.67" y1="46.99" x2="26.67" y2="29.591" width="0" layer="19" extent="1-1"/>
+<wire x1="12.7" y1="46.99" x2="26.67" y2="46.99" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SDA">
 <contactref element="LINE_SENSOR" pad="1"/>
@@ -580,6 +633,36 @@ design rules under a new name.</description>
 <contactref element="U$1" pad="A5"/>
 <contactref element="LINE_SENSOR" pad="2"/>
 <wire x1="11.43" y1="9.271" x2="41.91" y2="34.29" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$1">
+<contactref element="MOTOR1" pad="6"/>
+<contactref element="J1" pad="1"/>
+<wire x1="12.7" y1="49.53" x2="12.7" y2="67.31" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$2">
+<contactref element="MOTOR2" pad="6"/>
+<contactref element="J2" pad="1"/>
+<wire x1="26.67" y1="49.53" x2="26.67" y2="67.31" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$3">
+<contactref element="MOTOR1" pad="3"/>
+<contactref element="U$1" pad="4"/>
+<wire x1="26.67" y1="19.431" x2="12.7" y2="59.69" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$4">
+<contactref element="MOTOR1" pad="5"/>
+<contactref element="U$1" pad="3"/>
+<wire x1="26.67" y1="16.891" x2="12.7" y2="64.77" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$5">
+<contactref element="MOTOR2" pad="5"/>
+<contactref element="U$1" pad="5"/>
+<wire x1="26.67" y1="21.971" x2="26.67" y2="64.77" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$6">
+<contactref element="MOTOR2" pad="3"/>
+<contactref element="U$1" pad="6"/>
+<wire x1="26.67" y1="24.511" x2="26.67" y2="59.69" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 </board>

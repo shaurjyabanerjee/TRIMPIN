@@ -26,10 +26,10 @@ void setup()
   Serial.println();
   
   //To enable IR only during reads
-  mySensorBar.setBarStrobe();
+  //mySensorBar.setBarStrobe();
   
   //To enable IR all the time (easier to get visual feedback)
-  //mySensorBar.clearBarStrobe();
+  mySensorBar.clearBarStrobe();
   
   //Default dark on light
   mySensorBar.clearInvertBits();
@@ -53,6 +53,13 @@ void setup()
   //Setting output pinmode for motor start/stop
   pinMode(motor1_pin, OUTPUT);
   pinMode(motor2_pin, OUTPUT);
+
+  //Set default state for motor enable pins
+  digitalWrite(motor1_pin, HIGH);
+  digitalWrite(motor2_pin, HIGH);
+
+  //Wait 5 seconds on startup
+  delay (5000);
   
 }
 
@@ -60,13 +67,12 @@ void loop()
 {
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
-  
+
+  //call line follower function
   follow_line(rawValue);
-  
-  delay(50);
 }
 
-//Function to print binary values using a serial buffer
+//Function to print binary values using a serial buffer (for debugging)
 void bitwise_int_print(int raw)
 {
   Serial.print("SensorBar Readout : ");
@@ -81,37 +87,18 @@ void bitwise_int_print(int raw)
 void follow_line(int raw)
 {
    int temp = raw;
-   
-   //Remove the last bit on the extreme left and right
-   //d126 == 01111110
-   //temp = temp & 126;
-   
-   //Or remove the last two bits on the extreme left and right
-   //(Dont do this just now, it wont work)
-   //d60 == 00111100
-   //temp = temp & 60;
-
+ 
    //Debug expressions
-   bitwise_int_print(temp & 255);
+   //bitwise_int_print(temp & 255);
 
-   //If the robot is off the ground
+   //If the robot is off the ground or if the robot sees no line
    //d255 == 11111111
-   if ( (temp & 255) == 255 )
+   if ( (temp & 255) == 255 || (temp & 255) == 0 )
    {
-      //Serial.println("robot is off the ground");
-      digitalWrite(motor1_pin, LOW);  //Turn off left motor
-      digitalWrite(motor2_pin, LOW);  //Turn off right motor
+      Serial.println("robot is off the ground");
+      digitalWrite(motor1_pin, HIGH);  //Turn off left motor
+      digitalWrite(motor2_pin, HIGH);  //Turn off right motor
    }
-
-   //If the robot is on the ground but sees no line
-   //d255 == 11111111
-   else if ( (!temp & 255) == 255)
-   {
-      //Serial.println("no line detected");
-      digitalWrite(motor1_pin, LOW);  //Turn off left motor
-      digitalWrite(motor2_pin, LOW);  //Turn off right motor
-   }
-   
   
    //First lets set the centered state, with both motors running
    //d16 == 00010000
@@ -119,8 +106,8 @@ void follow_line(int raw)
    else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
    {
        //Serial.println("centered");
-       digitalWrite(motor1_pin, HIGH);  //Turn on left motor
-       digitalWrite(motor2_pin, HIGH);  //Turn on right motor
+       digitalWrite(motor1_pin, LOW);  //Turn on left motor
+       digitalWrite(motor2_pin, LOW);  //Turn on right motor
    }
      
    //Now for the states where we correct right
@@ -129,8 +116,8 @@ void follow_line(int raw)
    else if ( ((temp & 32) == 32) || ((temp & 64) == 64) )
    {
       //Serial.println("correcting right");
-      digitalWrite(motor1_pin, LOW);  //Turn on left motor
-      digitalWrite(motor2_pin, HIGH);  //Turn on right motor
+      digitalWrite(motor1_pin, HIGH);  //Turn on left motor
+      digitalWrite(motor2_pin, LOW);  //Turn on right motor
    }
   
    //Now for the states where we correct left
@@ -139,8 +126,8 @@ void follow_line(int raw)
    else if ( ((temp & 4) == 4)||((temp & 2) == 2) )
    {
       //Serial.println("correcting left");
-      digitalWrite(motor1_pin, HIGH);  //Turn on left motor
-      digitalWrite(motor2_pin, LOW);  //Turn on right motor
+      digitalWrite(motor1_pin, LOW);  //Turn on left motor
+      digitalWrite(motor2_pin, HIGH);  //Turn on right motor
    }
 
    //Explicitly ignore edge cases
@@ -149,8 +136,8 @@ void follow_line(int raw)
    else if ( ((temp & 128) == 128)||((temp & 1) == 1) )
    {
       //Serial.println("edge cases");
-      digitalWrite(motor1_pin, LOW);  //Turn on left motor
-      digitalWrite(motor2_pin, LOW);  //Turn on right motor
+      digitalWrite(motor1_pin, HIGH);  //Turn on left motor
+      digitalWrite(motor2_pin, HIGH);  //Turn on right motor
    }
 }
 
