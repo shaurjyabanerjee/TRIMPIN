@@ -2651,10 +2651,10 @@ Source: www.kingbright.com</description>
 <part name="GND5" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="IC3" library="linear" deviceset="78*" device="TV" technology="05"/>
 <part name="IC1" library="uln-udn" library_urn="urn:adsk.eagle:library:407" deviceset="ULN2803A" device=""/>
-<part name="LED1" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
+<part name="M1_ENABLE" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
 <part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
 <part name="LED3" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
-<part name="LED4" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
+<part name="M2_ENABLE" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
 <part name="LED5" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="3MM"/>
 </parts>
 <sheets>
@@ -2680,11 +2680,11 @@ Source: www.kingbright.com</description>
 <instance part="GND5" gate="1" x="33.02" y="66.04"/>
 <instance part="IC3" gate="A1" x="68.58" y="40.64"/>
 <instance part="IC1" gate="G$1" x="129.54" y="137.16"/>
-<instance part="LED1" gate="G$1" x="165.1" y="147.32" rot="R90"/>
+<instance part="M1_ENABLE" gate="G$1" x="165.1" y="152.4" rot="R90"/>
 <instance part="LED2" gate="G$1" x="165.1" y="142.24" rot="R90"/>
-<instance part="LED3" gate="G$1" x="165.1" y="137.16" rot="R90"/>
-<instance part="LED4" gate="G$1" x="165.1" y="132.08" rot="R90"/>
-<instance part="LED5" gate="G$1" x="165.1" y="127" rot="R90"/>
+<instance part="LED3" gate="G$1" x="165.1" y="132.08" rot="R90"/>
+<instance part="M2_ENABLE" gate="G$1" x="165.1" y="132.08" rot="R90"/>
+<instance part="LED5" gate="G$1" x="165.1" y="121.92" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -2811,6 +2811,18 @@ Source: www.kingbright.com</description>
 <wire x1="68.58" y1="76.2" x2="68.58" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="D6"/>
 <wire x1="68.58" y1="78.74" x2="114.3" y2="78.74" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="M2_ENABLE" gate="G$1" pin="C"/>
+<pinref part="LED3" gate="G$1" pin="C"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="M2_ENABLE" gate="G$1" pin="A"/>
+<pinref part="LED3" gate="G$1" pin="A"/>
 </segment>
 </net>
 </nets>
