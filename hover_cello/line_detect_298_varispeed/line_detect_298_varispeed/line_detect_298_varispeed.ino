@@ -19,7 +19,7 @@ int in3 = 7;
 int in4 = 6;
 
 //Set variables for speeds
-int speed1 [] = {50, 50};
+int speed1 [] = {150, 150};
 int speed2 [] = {100, 100};
 int speed3 [] = {150, 150};
 int speed4 [] = {200, 200};
@@ -137,7 +137,7 @@ void follow_line(int raw)
    else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
    {
        drive_motorA(0);
-       drive_motorB(1);
+       drive_motorB(0);
    }
      
    //Now for the states where we correct right
@@ -146,7 +146,7 @@ void follow_line(int raw)
    else if ( ((temp & 32) == 32) || ((temp & 64) == 64) )
    {
       stop_motorA();
-      drive_motorB(1);
+      drive_motorB(0);
    }
   
    //Now for the states where we correct left
