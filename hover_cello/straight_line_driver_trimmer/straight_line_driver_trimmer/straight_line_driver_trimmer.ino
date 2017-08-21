@@ -3,19 +3,20 @@
 //Staright line trajectory means both motors are balanced
 //Deviation means one of the motors is running slower,
 //Using motor speed trimmers here would allow for correction and adjustment
-
-//Firmware has not been tested yet!
+//PWM frequency raised to 31372.55 Hz for silent motor operation
+//Tested!
 
 //Shaurjya Banerjee 2017
 
 //Set pins for Motor 1
 int enA = 10;
-int in1 = 9;
-int in2 = 8;
+int in1 = 8;
+int in2 = 7;
 //Set pins for Motor 2
-int enB = 5;
-int in3 = 7;
-int in4 = 6;
+int enB = 9;
+int in3 = 6;
+int in4 = 5;
+
 //Set pins for Motor Speed trimmers
 int trim_pin1 = 1;
 int trim_pin2 = 2;
@@ -25,7 +26,7 @@ int motorA_trim = 0;
 int motorB_trim = 0;
 
 //Set individual motor speeds here
-int motor_speeds [] = {255, 255};
+int motor_speeds [] = {0, 0};
 
 //Set test length here
 int test_length = 10000;
@@ -33,6 +34,10 @@ int test_length = 10000;
 void setup() 
 {
   Serial.begin(9600);
+
+  //Set PWM frequency to 31372.55 Hz for timer1 (phase-correct PWM)
+  //This puts the PWM frequency outside audio rate for silent motor operation
+  TCCR1B = (TCCR1B & 0b11111000) | 0x01;
   
   //Setting output pinmode for motor pins
   pinMode(enA, OUTPUT);
