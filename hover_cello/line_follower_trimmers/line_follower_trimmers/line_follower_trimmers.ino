@@ -107,6 +107,7 @@ void loop()
 
   //call line follower function
   follow_line(rawValue);
+  read_trimmers();
 }
 
 //Function to print binary values using a serial buffer (for debugging)

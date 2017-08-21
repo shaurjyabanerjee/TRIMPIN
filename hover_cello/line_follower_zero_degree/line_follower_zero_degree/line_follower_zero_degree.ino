@@ -26,15 +26,12 @@ int trim_pin2 = 2;
 int motorA_trim = 0;
 int motorB_trim = 0;
 
+//Delay variable for zero degree turning and average speed
+int zero_time = 0;
+int avg_speed = 0;
+
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
-
-//Set variables for speeds
-int speed1 [] = {50, 50};
-int speed2 [] = {100, 100};
-int speed3 [] = {150, 150};
-int speed4 [] = {200, 200};
-int speed5 [] = {255, 255};
 
 //Set I2C address as per hardware jumpers
 const uint8_t SX1509_ADDRESS = 0x3E;  // SX1509 I2C address (00)
@@ -105,8 +102,9 @@ void loop()
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
 
-  //call line follower function
+  read_trimmers();
   follow_line(rawValue);
+  
 }
 
 //Function to print binary values using a serial buffer (for debugging)
@@ -124,9 +122,6 @@ void bitwise_int_print(int raw)
 void follow_line(int raw)
 {
    int temp = raw;
- 
-   //Debug expressions
-   //bitwise_int_print(temp & 255);
 
    //If the robot is off the ground or if the robot sees no line
    //d255 == 11111111
@@ -140,7 +135,7 @@ void follow_line(int raw)
    //First lets set the centered state, with both motors running
    //d16 == 00010000
    //d8  == 00001000
-   else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
+   else if ( ((temp & 16) == 16) && ((temp & 8) == 8) )
    {
        drive_motorA(0);
        drive_motorB(0);
@@ -151,8 +146,9 @@ void follow_line(int raw)
    //d64 == 01000000
    else if ( ((temp & 32) == 32) || ((temp & 64) == 64) )
    {
-      stop_motorA();
+      drive_motorA(1);
       drive_motorB(0);
+      delay(zero_time);
    }
   
    //Now for the states where we correct left
@@ -161,7 +157,8 @@ void follow_line(int raw)
    else if ( ((temp & 4) == 4)||((temp & 2) == 2) )
    {
       drive_motorA(0);
-      stop_motorB();
+      drive_motorB(1);
+      delay(zero_time);
    }
 
    //Explicitly ignore edge cases
@@ -202,9 +199,14 @@ void read_trimmers()
    motorA_trim = analogRead(trim_pin1);
    motorB_trim = analogRead(trim_pin2);
 
-   motor_speeds[0] = motorA_trim/4;
-   motor_speeds[1] = motorB_trim/4;
+   motor_speeds[0] = constrain( (motorA_trim/4), 0, 200 );
+   motor_speeds[1] = constrain( (motorB_trim/4), 0, 200 );
 
+   avg_speed = ((motor_speeds[0] + motor_speeds[1])/2);
+
+   zero_time = map(avg_speed, 150, 200, 1000, 450);
+   zero_time = constrain(zero_time, 450, 1000);
+   
    set_speed(motor_speeds);
 }
 
