@@ -22,6 +22,9 @@ int in4 = 5;
 int trim_pin1 = 1;
 int trim_pin2 = 2;
 
+//Set pin for line color switch
+int color_pin = 3;
+
 //Set pin for speed switch
 int switch_pin = 4;
 
@@ -35,6 +38,7 @@ int avg_speed = 0;
 
 //Variable to hold speed state
 int speed_state = 0;
+int color_state = 0;
 
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
@@ -57,19 +61,43 @@ void setup()
   
   Serial.println("Program started.");
   Serial.println();
+
+  //Setting output pinmode for motor pins
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  //Setting input pinmode for control pins
+  pinMode(switch_pin, INPUT);
+  pinMode(color_pin, INPUT);
+
+  delay(200);
+
+  color_state = digitalRead(color_pin);
   
+  if (color_state == LOW)
+  {
+    //Default dark on light
+    mySensorBar.clearInvertBits();
+    Serial.println("Dark on Light");
+  }
+
+  else if (color_state == HIGH)
+  {
+    //Light line on dark
+    mySensorBar.setInvertBits();
+    Serial.println("Light on Dark");
+  }
+
   //To enable IR only during reads
   //mySensorBar.setBarStrobe();
   
   //To enable IR all the time (easier to get visual feedback)
   mySensorBar.clearBarStrobe();
-  
-  //Default dark on light
-  mySensorBar.clearInvertBits();
-  
-  //Light line on dark
-  //mySensorBar.setInvertBits();
-  
+    
   //.begin() gets the bar ready
   uint8_t returnStatus = mySensorBar.begin();
   if(returnStatus)
@@ -83,15 +111,6 @@ void setup()
   }
   Serial.println();
   
-  //Setting output pinmode for motor pins
-  pinMode(enA, OUTPUT);
-  pinMode(enB, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
-  pinMode(in3, OUTPUT);
-  pinMode(in4, OUTPUT);
-  pinMode(switch_pin, INPUT);
-
   //Setting default pin states to low on startup
   digitalWrite(enA, LOW);
   digitalWrite(in1, LOW);
@@ -108,7 +127,7 @@ void loop()
 {
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
-
+  
   read_trimmers();
   follow_line(rawValue);
   
@@ -233,10 +252,7 @@ void read_switch()
   else if (speed_state == LOW)
   {
     set_speed(motor_speeds);
-    Serial.println("BALLZ GUY");
-
   }
-  
 }
 
 //Function to drive motor A
@@ -299,4 +315,3 @@ void stop_motorB ()
    digitalWrite(in3, LOW);
    digitalWrite(in4, LOW);
 }
-
