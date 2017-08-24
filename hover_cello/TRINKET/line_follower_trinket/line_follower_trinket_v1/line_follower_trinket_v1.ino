@@ -1,10 +1,14 @@
-//SparkFun Line Follower Array Test
-//Written to work with DC motors and the L298 driver
-//Now with speed offset trimmers per motor
-//PWM frequency raised to 31372.55 Hz for silent motor operation
-//Bitwise Style
+//Hover Cello Trinket Firmware Ver. 0
 
-//Now tested!
+//Steps in programming an Adafruit Pro Trinket 5V
+
+// 1. Select the "Pro Trinket 5V/16Mhz (USB)" from Tools -> Board Menu
+// 2. Select the "USBtinyISP" from Tools -> Programmer 
+// 3. Make sure the Trinket is in bootloader mode by pressing the button
+// 4. Upload your code within 10 seconds of pressing the button
+
+//PWM frequency raised to 31372.55 Hz for silent motor operation
+//Bitwise Style motor control logic
 
 //Shaurjya Banerjee 2017
 
@@ -12,23 +16,23 @@
 #include "sensorbar.h"
 
 //Set pins for Motor 1
-int enA = 10;
-int in1 = 8;
-int in2 = 7;
+int enA = 9;
+int in1 = 3;
+int in2 = 4;
 //Set pins for Motor 2
-int enB = 9;
-int in3 = 6;
-int in4 = 5;
+int enB = 10;
+int in3 = 5;
+int in4 = 6;
 
 //Set pins for Motor Speed trimmers
-int trim_pin1 = 1;
-int trim_pin2 = 2;
+int trim_pin1 = 2;
+int trim_pin2 = 3;
 
 //Set pin for line color switch
-int color_pin = 3;
+int color_pin = 12;
 
 //Set pin for speed switch
-int switch_pin = 4;
+int switch_pin = 13;
 
 //Variables to hold motor speed offsets
 int motorA_trim = 0;
