@@ -1,5 +1,5 @@
-//Hover Cello Trinket Firmware Ver. 0
-//For use with small Maxon motors
+//Hover Cello Trinket Spin on the spot
+//Untested!
 
 //Steps in programming an Adafruit Pro Trinket 5V
 
@@ -56,6 +56,8 @@ int boost_amt = 100;
 int speed_state = 0;
 int color_state = 0;
 
+int spin_state = 0;
+
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
 
@@ -100,7 +102,8 @@ void setup()
   delay(200);
 
   //Read color pin to determine line color
-  color_state = digitalRead(color_pin);
+  //color_state = digitalRead(color_pin);
+  color_state = 0;
 
   //Dark line on light floor
   if (color_state == LOW)
@@ -151,11 +154,23 @@ void loop()
 {
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
-  
+
+  spin_state = digitalRead(color_pin);
   read_trimmers();
-  follow_line(rawValue);
-  fade_led();
   
+  //Default condition where we follow a line
+  if (spin_state == LOW)
+  {
+    follow_line(rawValue);
+  }
+
+  //Condition where we spin on the spot
+  else if (spin_state == HIGH)
+  {
+    spin();
+  }
+  
+  fade_led();
 }
 
 //Function to print binary values using a serial buffer (for debugging)
@@ -353,4 +368,13 @@ void fade_led()
   }
   analogWrite(led_pin, led_count);
 } 
+
+//Function to spin the device on the spot using zero degree turning
+void spin()
+{
+  set_speed(motor_speeds);
+  
+  drive_motorA(0);
+  drive_motorB(1);
+}
 
