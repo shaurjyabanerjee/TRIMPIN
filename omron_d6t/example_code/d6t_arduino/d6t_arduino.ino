@@ -1,3 +1,6 @@
+//Get and parse data from the Omron D6T thermal sensor
+//Shaurjya Banerjee - 2017
+
 //I2C Library
 #include <Wire.h>
 
@@ -6,6 +9,7 @@
 
 //The D6T will return 35 bytes of data to be processed
 //There variables will store them
+
 int ReadBuffer[35];     //D6T Buffer
 float ptat;             //reference temparature inside sensor
 float tdata[16];        //temporary temperature data for 16 pixels (4x4)
@@ -29,12 +33,12 @@ void loop()
   Wire.requestFrom(D6T_ID, 35);
 
   //Putting this data into a memory/buffer
-  for (i =0; i<35; i++)
+  for (i = 0; i < 35; i++)
   {
     ReadBuffer[i] = Wire.read();
   }
 
-  //Processing thedata into Celcius
+  //Processing the data into Celcius
   //Byte 0-1 = Reference Temp
   //Byte 2-33 = Temperature Data
   //Byte 34 = Packet Check Error
@@ -42,7 +46,7 @@ void loop()
   ptat = (ReadBuffer[0]+(ReadBuffer[1]*256))*0.1;  //Reference temp
   
   //Temperature Data
-  for (i =0; i<16; i++)
+  for (i = 0; i < 16; i++)
   {
     tdata[i] = (ReadBuffer[(i*2+2)]+(ReadBuffer[(i*2+3)]*256))*0.1;
   }
@@ -52,7 +56,7 @@ void loop()
   
   //Print Reference Temp in Farenheit
   //First, check if there is data
-  if ( ((tdata[0]*9.0/5.0) + 32.0)>0 )
+  if ( ((tdata[0]*9.0/5.0) + 32.0) > 0 )
   {
     for (i = 0; i<16; i++)
     {

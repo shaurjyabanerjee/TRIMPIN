@@ -4,7 +4,7 @@
 import processing.serial.*;
 
 //Serial Information
-String portName = "/dev/cu.usbmodemFD121"; //Serial port name
+String portName = "/dev/cu.usbmodemFD1241"; //Serial port name
 Serial port;   //Main port object
 int BaudRate = 9600;
 String inString;  //String that will be processed
@@ -16,8 +16,8 @@ float[]tdata = new float [17];  //Ref and temp data go here
 String buff;
 PFont font;
 float colorGreen;
-int lbTemp = 60;
-int hbTemp = 90;
+int lbTemp = 70;
+int hbTemp = 80;
 
 void setup ()
 {

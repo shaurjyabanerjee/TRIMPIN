@@ -1,0 +1,6 @@
+Hover Cello Firmware Notes 
+
+1. Put straight line tester on DIP switch
+2. Put start/stop behaviour on another DIP switch
+3. Make a mode to spin on the spot, attach to DIP switch
+4. 
