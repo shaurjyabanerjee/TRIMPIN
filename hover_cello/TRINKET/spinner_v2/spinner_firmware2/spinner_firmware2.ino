@@ -1,5 +1,5 @@
 //Hover Cello Trinket Spin on the spot
-//TESTED!
+//Have implemented a smart spinner mode
 
 //Steps in programming an Adafruit Pro Trinket 5V
 
@@ -16,6 +16,10 @@
 #include "Wire.h"
 #include "sensorbar.h"
 
+//Assign Pins---------------------------------------------------------------------------------------//
+
+//Make sure to assign enA and enB to physical PWM pins!
+
 //Set pins for Motor 1
 int enA = 9;
 int in1 = 3;
@@ -29,11 +33,22 @@ int in4 = 6;
 int trim_pin1 = 2;
 int trim_pin2 = 3;
 
+//Set pin for start/stop
+int start_pin = 0;
+
 //Set pin for line color switch
 int color_pin = 12;
 
 //Set pin for speed switch
 int switch_pin = 13;
+
+//Set pin for spinning mode
+int spin_pin = 0;
+
+//Set pin for fading LED
+int led_pin = 11;
+
+//Misc Variables -----------------------------------------------------------------------------------//
 
 //Variables to hold motor speed offsets
 int motorA_trim = 0;
@@ -52,11 +67,12 @@ int avg_speed = 0;
 //Variable for boost ammount
 int boost_amt = 100;
 
-//Variables to hold speed and color states
+//Variables to hold start, speed, color, spin and line states
+int start_state = 0;
 int speed_state = 0;
 int color_state = 0;
-
 int spin_state = 0;
+int line_state = 0;
 
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
@@ -64,7 +80,6 @@ int motor_speeds [] = {0, 0};
 int top_speed = 255;
 
 //Variables for fading LED
-int led_pin = 11;
 int led_count = 0;
 int fade_amt = 1;
 
@@ -155,19 +170,31 @@ void loop()
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
 
-  spin_state = digitalRead(color_pin);
+  //spin_state = digitalRead(spin_pin);
+  start_state = digitalRead(color_pin);
   read_trimmers();
-  
-  //Default condition where we follow a line
-  if (spin_state == LOW)
+
+  //If we are allowed to move by start_state
+  if (start_state == LOW)
   {
-    follow_line(rawValue);
+     //Default condition where we follow a line
+     if (spin_state == LOW && check_line(rawValue) == HIGH)
+     {
+        follow_line(rawValue);
+     }
+
+     //Condition where we spin on the spot
+     else if (spin_state == HIGH)
+     {
+        spin(rawValue);
+     }
   }
 
-  //Condition where we spin on the spot
-  else if (spin_state == HIGH)
+  //If we are not allowed to move by start_state
+  else if (start_state == HIGH)
   {
-    spin();
+     stop_motorA();
+     stop_motorB();
   }
   
   fade_led();
@@ -196,6 +223,8 @@ void follow_line(int raw)
    {
       stop_motorA();
       stop_motorB();
+
+      line_state = 0;
    }
   
    //First lets set the centered state, with both motors running
@@ -205,6 +234,8 @@ void follow_line(int raw)
    {
        drive_motorA(0);
        drive_motorB(0);
+
+       line_state = 1;
    }
      
    //Now for the states where we correct right
@@ -220,6 +251,7 @@ void follow_line(int raw)
       motor_speeds[1] = motor_speeds[1] * 0.75;
 
       set_speed(motor_speeds);
+      line_state = 1;
         
       delay(zero_time);
    }
@@ -237,6 +269,7 @@ void follow_line(int raw)
       motor_speeds[1] = motor_speeds[1] * 0.75;
 
       set_speed(motor_speeds);
+      line_state = 1;
       
       delay(zero_time);
    }
@@ -367,11 +400,40 @@ void fade_led()
 } 
 
 //Function to spin the device on the spot using zero degree turning
-void spin()
+void spin(int raw)
 {
   set_speed(motor_speeds);
   
   drive_motorA(0);
   drive_motorB(1);
+
+  check_line(raw);
 }
 
+//Function used to check if the robot is seeing a line
+//Used as an added qualifier for spinning
+bool check_line(int raw)
+{
+   int temp = raw;
+
+   //For centered State
+   if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
+   {
+      return true;
+   }
+   //For states we correct right
+   else if ( ((temp & 4) == 4) || ((temp & 2) == 2) || ((temp & 1) == 1) )
+   {
+      return true;
+   }
+   //For the states we correct left
+   else if ( ((temp & 32) == 32) || ((temp & 64) == 64) || ((temp & 128) == 128) )
+   {
+      return true;
+   }
+   //If no line is found
+   else 
+   {
+      return false;
+   }
+}
