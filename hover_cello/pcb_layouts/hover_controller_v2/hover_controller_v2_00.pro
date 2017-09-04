@@ -2,24 +2,24 @@ EAGLE AutoRouter Statistics:
 
 Job           : /Users/SBMavericks/Desktop/TRIMPIN/hover_cello/pcb_layouts/hover_controller_v2/hover_controller_v2.brd
 
-Start at      : 15:32:31 (04/09/17)
-End at        : 16:00:00 (31/12/69)
-Elapsed time  : 00:00:13
+Start at      : 16:21:28 (04/09/17)
+End at        : 16:22:24 (04/09/17)
+Elapsed time  : 00:00:53
 
-Signals       :    38   RoutingGrid: 6 mil  Layers: 2
-Connections   :    84   predefined:  0 ( 0 Vias )
+Signals       :    41   RoutingGrid: 6 mil  Layers: 2
+Connections   :    98   predefined:  0 ( 0 Vias )
 
-Router memory :   6822220
+Router memory :   1257432
 
-Passname          : TopRouter     Route
+Passname          : TopRouter     Route Optimize1 Optimize2 Optimize3 Optimize4 Optimize5 Optimize6 Optimize7 Optimize8
 
-Time per pass     :  00:00:13  00:00:00
-Number of Ripups  :         0         0
-max. Level        :         0         5
-max. Total        :         0         4
+Time per pass     :  00:00:18  00:00:01  00:00:06  00:00:05  00:00:06  00:00:05  00:00:04  00:00:03  00:00:03  00:00:02
+Number of Ripups  :         0         0         0         0         0         0         0         0         0         0
+max. Level        :         0         0         0         0         0         0         0         0         0         0
+max. Total        :         0         0         0         0         0         0         0         0         0         0
 
-Routed            :        12        46
-Vias              :         0         0
-Resolution        :    14.3 %    54.8 %
+Routed            :        79        98        98        98        98        98        98        98        98        98
+Vias              :         0        11        36        28        24        24        25        25        25        24
+Resolution        :    80.6 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 
