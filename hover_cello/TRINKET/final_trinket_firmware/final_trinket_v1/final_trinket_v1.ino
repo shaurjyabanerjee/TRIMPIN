@@ -1,5 +1,4 @@
-//Hover Cello Trinket Spin on the spot
-//Have implemented a smart spinner mode
+//Hover Cello Firmware for Adafruit Pro Trinket 
 
 //Steps in programming an Adafruit Pro Trinket 5V
 
@@ -8,12 +7,12 @@
 // 3. Make sure the Trinket is in bootloader mode by pressing the button
 // 4. Upload your code within 10 seconds of pressing the button
 
-//PWM frequency raised to 31372.55 Hz for silent motor operation
+//PWM frequency raised to 31372.55 Hz on timer1 for silent motor operation
 //Bitwise Style motor control logic
 
 //Shaurjya Banerjee 2017
 
-#include "Wire.h"
+#include "Wire.h" 
 #include "sensorbar.h"
 
 //Assign Pins---------------------------------------------------------------------------------------//
@@ -34,16 +33,19 @@ int trim_pin1 = 2;
 int trim_pin2 = 3;
 
 //Set pin for start/stop
-int start_pin = 0;
-
-//Set pin for line color switch
-int color_pin = 12;
-
-//Set pin for speed switch
-int switch_pin = 13;
+int start_pin = 12;
 
 //Set pin for spinning mode
-int spin_pin = 0;
+int spin_pin = 13;
+
+//Set pin for speed switch
+int switch_pin = 14;
+
+//Set pin for calibration mode
+int calib_pin = 15;
+
+//Set pin for line color switch
+int color_pin = 20;
 
 //Set pin for fading LED
 int led_pin = 11;
@@ -65,14 +67,15 @@ int zt_min = 600;
 int avg_speed = 0;
 
 //Variable for boost ammount
-int boost_amt = 100;
+int boost_amt = 150;
 
 //Variables to hold start, speed, color, spin and line states
 int start_state = 0;
 int speed_state = 0;
 int color_state = 0;
-int spin_state = 0;
-int line_state = 0;
+int spin_state  = 0;
+int line_state  = 0;
+int calib_state = 0;
 
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
@@ -93,7 +96,7 @@ SensorBar mySensorBar(SX1509_ADDRESS);
 
 void setup()
 {
-  Serial.begin(9600);  // start serial for output
+  Serial.begin(9600);
 
   //Set PWM frequency to 31372.55 Hz for timer1 (phase-correct PWM)
   //This puts the PWM frequency outside audio rate for silent motor operation
@@ -111,8 +114,11 @@ void setup()
   pinMode(in4, OUTPUT);
 
   //Setting input pinmode for control pins
+  pinMode(start_pin,  INPUT);
+  pinMode(spin_pin,   INPUT);
   pinMode(switch_pin, INPUT);
-  pinMode(color_pin, INPUT);
+  pinMode(color_pin,  INPUT);
+  pinMode(calib_pin,  INPUT);
 
   delay(200);
 
@@ -170,23 +176,32 @@ void loop()
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
 
-  //spin_state = digitalRead(spin_pin);
-  start_state = digitalRead(color_pin);
+  start_state = digitalRead(start_pin);
+  spin_state  = digitalRead(spin_pin);
+  calib_state = digitalRead(calib_pin);  
+  
   read_trimmers();
+  read_switch();
 
   //If we are allowed to move by start_state
   if (start_state == LOW)
   {
      //Default condition where we follow a line
-     if (spin_state == LOW && check_line(rawValue) == HIGH)
+     if (spin_state == LOW && calib_state == LOW)
      {
         follow_line(rawValue);
      }
 
      //Condition where we spin on the spot
-     else if (spin_state == HIGH)
+     else if (spin_state == HIGH && calib_state == LOW)
      {
         spin(rawValue);
+     }
+
+     //Condition where we enter a calibration routine
+     else if (calib_state == HIGH)
+     {
+        straight_line();
      }
   }
 
@@ -219,12 +234,10 @@ void follow_line(int raw)
    //If the robot is off the ground or if the robot sees no line
    //d255 == 11111111
    //d0   == 00000000
-   if ( (temp & 255) == 255 || (temp & 255) == 0 )
+   if ( ((temp & 255) == 255) || ((temp & 255) == 0) )
    {
       stop_motorA();
       stop_motorB();
-
-      line_state = 0;
    }
   
    //First lets set the centered state, with both motors running
@@ -234,8 +247,6 @@ void follow_line(int raw)
    {
        drive_motorA(0);
        drive_motorB(0);
-
-       line_state = 1;
    }
      
    //Now for the states where we correct right
@@ -250,9 +261,7 @@ void follow_line(int raw)
       motor_speeds[0] = motor_speeds[0] * 0.75;
       motor_speeds[1] = motor_speeds[1] * 0.75;
 
-      set_speed(motor_speeds);
-      line_state = 1;
-        
+      set_speed(motor_speeds);     
       delay(zero_time);
    }
   
@@ -269,8 +278,6 @@ void follow_line(int raw)
       motor_speeds[1] = motor_speeds[1] * 0.75;
 
       set_speed(motor_speeds);
-      line_state = 1;
-      
       delay(zero_time);
    }
 }
@@ -302,8 +309,6 @@ void read_trimmers()
    //Scale and constrain zero time based on motor speed
    zero_time = map(avg_speed, 150, 200, zt_max, zt_min);
    zero_time = constrain(zero_time, zt_min, zt_max);
-
-   read_switch();
 }
 
 //Function to read pins to set global motor speed state
@@ -314,9 +319,9 @@ void read_switch()
   //High speed Mode
   if (speed_state == HIGH)
   {
-     //Offset the trimmer values up by 50
-     motor_speeds[0] = motor_speeds[0] + boost_amt;
-     motor_speeds[1] = motor_speeds[1] + boost_amt;
+     //Offset the trimmer values up by boost amt
+     motor_speeds[0] = top_speed;
+     motor_speeds[1] = top_speed;
      
      set_speed(motor_speeds);
   }
@@ -416,8 +421,13 @@ bool check_line(int raw)
 {
    int temp = raw;
 
+   //If no line is found or if the robot is off the ground
+   if ( ((temp & 255) == 255) || ((temp & 255) == 0) )
+   {
+    return false;
+   }
    //For centered State
-   if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
+   else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
    {
       return true;
    }
@@ -436,4 +446,13 @@ bool check_line(int raw)
    {
       return false;
    }
+}
+
+//Function for driving in a straight line for calibration
+void straight_line()
+{
+  set_speed(motor_speeds);
+  
+  drive_motorA(0);
+  drive_motorB(0);
 }
