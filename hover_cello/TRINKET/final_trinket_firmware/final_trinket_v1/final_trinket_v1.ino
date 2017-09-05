@@ -126,9 +126,8 @@ void setup()
   delay(200);
 
   //Read color pin to determine line color
-  //color_state = digitalRead(color_pin);
-  color_state = 0;
-
+  color_state = digitalRead(color_pin);
+  
   //Dark line on light floor
   if (color_state == LOW)
   {
@@ -270,8 +269,8 @@ void follow_line(int raw)
      //d128 == 10000000
      else if ( ((temp & 32) == 32) || ((temp & 64) == 64) || ((temp & 128) == 128) )
      {
-        drive_motorA(1);
-        drive_motorB(0);
+        drive_motorA(0);
+        drive_motorB(1);
   
         motor_speeds[0] = motor_speeds[0] * 0.75;
         motor_speeds[1] = motor_speeds[1] * 0.75;
@@ -286,8 +285,8 @@ void follow_line(int raw)
      //d1 == 00000001
      else if ( ((temp & 4) == 4) || ((temp & 2) == 2) || ((temp & 1) == 1) )
      {
-        drive_motorA(0);
-        drive_motorB(1);
+        drive_motorA(1);
+        drive_motorB(0);
   
         motor_speeds[0] = motor_speeds[0] * 0.75;
         motor_speeds[1] = motor_speeds[1] * 0.75;
