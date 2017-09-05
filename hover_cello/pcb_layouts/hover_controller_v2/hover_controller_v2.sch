@@ -5787,9 +5787,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <wire x1="22.86" y1="160.02" x2="53.34" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="RN2" gate="1" pin="2"/>
-<wire x1="-27.94" y1="124.46" x2="-27.94" y2="116.84" width="0.1524" layer="91"/>
-<label x="-27.94" y="116.84" size="1.778" layer="95" rot="R270" xref="yes"/>
+<pinref part="RN2" gate="1" pin="3"/>
+<wire x1="-22.86" y1="124.46" x2="-22.86" y2="114.3" width="0.1524" layer="91"/>
+<label x="-22.86" y="114.3" size="1.778" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
 <net name="R1" class="0">
@@ -5801,9 +5801,9 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <wire x1="50.8" y1="152.4" x2="53.34" y2="152.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="RN2" gate="1" pin="3"/>
-<wire x1="-22.86" y1="124.46" x2="-22.86" y2="114.3" width="0.1524" layer="91"/>
-<label x="-22.86" y="114.3" size="1.778" layer="95" rot="R270" xref="yes"/>
+<pinref part="RN2" gate="1" pin="2"/>
+<wire x1="-27.94" y1="124.46" x2="-27.94" y2="116.84" width="0.1524" layer="91"/>
+<label x="-27.94" y="116.84" size="1.778" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
 <net name="S2" class="0">

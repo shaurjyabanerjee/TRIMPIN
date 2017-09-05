@@ -1,4 +1,4 @@
-//Hover Cello Firmware for Adafruit Pro Trinket 
+//Hover Cello Firmware for Adafruit Pro Trinket V1.0
 
 //Steps in programming an Adafruit Pro Trinket 5V
 
@@ -10,7 +10,7 @@
 //PWM frequency raised to 31372.55 Hz on timer1 for silent motor operation
 //Bitwise Style motor control logic
 
-//Shaurjya Banerjee 2017
+//Shaurjya Banerjee - Sept 5th 2017
 
 #include "Wire.h" 
 #include "sensorbar.h"
@@ -77,9 +77,11 @@ int spin_state  = 0;
 int line_state  = 0;
 int calib_state = 0;
 
+//Variable to track spin behavieor
+int spin_track = 0;
+
 //Variable to hold motor speed
 int motor_speeds [] = {0, 0};
-
 int top_speed = 255;
 
 //Variables for fading LED
@@ -112,7 +114,8 @@ void setup()
   pinMode(in2, OUTPUT);
   pinMode(in3, OUTPUT);
   pinMode(in4, OUTPUT);
-
+  pinMode(led_pin, OUTPUT);
+  
   //Setting input pinmode for control pins
   pinMode(start_pin,  INPUT);
   pinMode(spin_pin,   INPUT);
@@ -166,7 +169,9 @@ void setup()
   digitalWrite(enB, LOW);
   digitalWrite(in3, LOW);
   digitalWrite(in4, LOW);
- 
+
+  spin_track = 0;
+  
   //Wait 1 second on startup
   delay (1000);
 }
@@ -176,28 +181,37 @@ void loop()
   //Get the data from the sensor bar and load it into the class members
   uint8_t rawValue = mySensorBar.getRaw();
 
+  //Read all out input control pins
   start_state = digitalRead(start_pin);
   spin_state  = digitalRead(spin_pin);
   calib_state = digitalRead(calib_pin);  
   
   read_trimmers();
   read_switch();
-
+ 
   //If we are allowed to move by start_state
   if (start_state == LOW)
-  {
-     //Default condition where we follow a line
-     if (spin_state == LOW && calib_state == LOW)
+  {  
+     //Condition where we spin on the spot
+     if (spin_state == HIGH)
      {
+        spin_track = 1;
+        spin(rawValue);
+     }
+     
+     //Default condition where we follow a line
+     else if ( (spin_state == LOW && calib_state == LOW) )
+     {
+        check_line(rawValue);
         follow_line(rawValue);
      }
 
-     //Condition where we spin on the spot
-     else if (spin_state == HIGH && calib_state == LOW)
+     else if (spin_track == 1 && spin_state == 0)
      {
-        spin(rawValue);
+        stop_motorA();
+        stop_motorB();
      }
-
+     
      //Condition where we enter a calibration routine
      else if (calib_state == HIGH)
      {
@@ -230,55 +244,57 @@ void bitwise_int_print(int raw)
 void follow_line(int raw)
 {
    int temp = raw;
-
-   //If the robot is off the ground or if the robot sees no line
-   //d255 == 11111111
-   //d0   == 00000000
-   if ( ((temp & 255) == 255) || ((temp & 255) == 0) )
+   if (spin_track == 0)
    {
-      stop_motorA();
-      stop_motorB();
-   }
+     //If the robot is off the ground or if the robot sees no line
+     //d255 == 11111111
+     //d0   == 00000000
+     if ( (((temp & 255) == 255) || ((temp & 255) == 0)) && spin_track == 0)
+     {
+        stop_motorA();
+        stop_motorB();
+     }
+    
+     //First lets set the centered state, with both motors running
+     //d16 == 00010000
+     //d8  == 00001000
+     else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
+     {
+         drive_motorA(0);
+         drive_motorB(0);
+     }
+       
+     //Now for the states where we correct right
+     //d32  == 00100000
+     //d64  == 01000000
+     //d128 == 10000000
+     else if ( ((temp & 32) == 32) || ((temp & 64) == 64) || ((temp & 128) == 128) )
+     {
+        drive_motorA(1);
+        drive_motorB(0);
   
-   //First lets set the centered state, with both motors running
-   //d16 == 00010000
-   //d8  == 00001000
-   else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
-   {
-       drive_motorA(0);
-       drive_motorB(0);
-   }
-     
-   //Now for the states where we correct right
-   //d32  == 00100000
-   //d64  == 01000000
-   //d128 == 10000000
-   else if ( ((temp & 32) == 32) || ((temp & 64) == 64) || ((temp & 128) == 128) )
-   {
-      drive_motorA(1);
-      drive_motorB(0);
-
-      motor_speeds[0] = motor_speeds[0] * 0.75;
-      motor_speeds[1] = motor_speeds[1] * 0.75;
-
-      set_speed(motor_speeds);     
-      delay(zero_time);
-   }
+        motor_speeds[0] = motor_speeds[0] * 0.75;
+        motor_speeds[1] = motor_speeds[1] * 0.75;
   
-   //Now for the states where we correct left
-   //d4 == 00000100
-   //d2 == 00000010
-   //d1 == 00000001
-   else if ( ((temp & 4) == 4) || ((temp & 2) == 2) || ((temp & 1) == 1) )
-   {
-      drive_motorA(0);
-      drive_motorB(1);
-
-      motor_speeds[0] = motor_speeds[0] * 0.75;
-      motor_speeds[1] = motor_speeds[1] * 0.75;
-
-      set_speed(motor_speeds);
-      delay(zero_time);
+        set_speed(motor_speeds);     
+        delay(zero_time);
+     }
+    
+     //Now for the states where we correct left
+     //d4 == 00000100
+     //d2 == 00000010
+     //d1 == 00000001
+     else if ( ((temp & 4) == 4) || ((temp & 2) == 2) || ((temp & 1) == 1) )
+     {
+        drive_motorA(0);
+        drive_motorB(1);
+  
+        motor_speeds[0] = motor_speeds[0] * 0.75;
+        motor_speeds[1] = motor_speeds[1] * 0.75;
+  
+        set_speed(motor_speeds);
+        delay(zero_time);
+     }
    }
 }
 
@@ -407,12 +423,13 @@ void fade_led()
 //Function to spin the device on the spot using zero degree turning
 void spin(int raw)
 {
+  int temp = raw;
+  check_line(temp);
+  
   set_speed(motor_speeds);
   
   drive_motorA(0);
   drive_motorB(1);
-  
-  check_line(raw);
 }
 
 //Function used to check if the robot is seeing a line
@@ -424,21 +441,24 @@ bool check_line(int raw)
    //If no line is found or if the robot is off the ground
    if ( ((temp & 255) == 255) || ((temp & 255) == 0) )
    {
-    return false;
+      return false;
    }
    //For centered State
    else if ( ((temp & 16) == 16) || ((temp & 8) == 8) )
    {
+      spin_track = 0;
       return true;
    }
    //For states we correct right
    else if ( ((temp & 4) == 4) || ((temp & 2) == 2) || ((temp & 1) == 1) )
    {
+      spin_track = 0;
       return true;
    }
    //For the states we correct left
    else if ( ((temp & 32) == 32) || ((temp & 64) == 64) || ((temp & 128) == 128) )
-   {
+   {  
+      spin_track = 0;
       return true;
    }
    //If no line is found
@@ -452,7 +472,6 @@ bool check_line(int raw)
 void straight_line()
 {
   set_speed(motor_speeds);
-  
   drive_motorA(0);
   drive_motorB(0);
 }

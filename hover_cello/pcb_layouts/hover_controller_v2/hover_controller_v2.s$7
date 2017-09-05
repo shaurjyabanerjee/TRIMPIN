@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -5669,6 +5669,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="DIGI_8" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="C3" library="SparkFun-Capacitors" deviceset="CAP" device="PTH1" value="100nF"/>
 <part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="PTH1" value="100nF"/>
+<part name="C5" library="SparkFun-Capacitors" deviceset="CAP_POL" device="PTH2" value="220µf"/>
+<part name="GND15" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5714,7 +5716,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="GND7" gate="1" x="182.88" y="22.86"/>
 <instance part="P+1" gate="1" x="182.88" y="43.18"/>
 <instance part="P+2" gate="1" x="210.82" y="43.18"/>
-<instance part="P+3" gate="1" x="104.14" y="78.74"/>
+<instance part="P+3" gate="1" x="104.14" y="86.36"/>
 <instance part="P+4" gate="1" x="78.74" y="71.12"/>
 <instance part="P+5" gate="1" x="144.78" y="43.18"/>
 <instance part="P+6" gate="1" x="172.72" y="43.18"/>
@@ -5740,6 +5742,8 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="DIGI_8" gate="G$1" x="203.2" y="58.42"/>
 <instance part="C3" gate="G$1" x="33.02" y="43.18"/>
 <instance part="C4" gate="G$1" x="218.44" y="53.34"/>
+<instance part="C5" gate="G$1" x="119.38" y="81.28" rot="R90"/>
+<instance part="GND15" gate="1" x="142.24" y="78.74"/>
 </instances>
 <busses>
 </busses>
@@ -5998,6 +6002,11 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="GND14" gate="1" pin="GND"/>
 <wire x1="2.54" y1="45.72" x2="2.54" y2="40.64" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="C5" gate="G$1" pin="-"/>
+<pinref part="GND15" gate="1" pin="GND"/>
+<wire x1="124.46" y1="81.28" x2="142.24" y2="81.28" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="CTRL_1" class="0">
 <segment>
@@ -6224,7 +6233,11 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <pinref part="U1" gate="G$1" pin="VS"/>
 <pinref part="P+3" gate="1" pin="+18V"/>
 <wire x1="106.68" y1="73.66" x2="104.14" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="73.66" x2="104.14" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="73.66" x2="104.14" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="+"/>
+<wire x1="104.14" y1="81.28" x2="104.14" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="81.28" x2="116.84" y2="81.28" width="0.1524" layer="91"/>
+<junction x="104.14" y="81.28"/>
 </segment>
 <segment>
 <pinref part="D8" gate="G$1" pin="C"/>

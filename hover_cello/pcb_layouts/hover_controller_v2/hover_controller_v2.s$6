@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -5671,6 +5671,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="PTH1" value="100nF"/>
 <part name="C5" library="SparkFun-Capacitors" deviceset="CAP_POL" device="PTH2" value="220µf"/>
 <part name="GND15" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
+<part name="RN2" library="resistor-net" library_urn="urn:adsk.eagle:library:343" deviceset="RN09" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5744,6 +5745,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <instance part="C4" gate="G$1" x="218.44" y="53.34"/>
 <instance part="C5" gate="G$1" x="119.38" y="81.28" rot="R90"/>
 <instance part="GND15" gate="1" x="142.24" y="78.74"/>
+<instance part="RN2" gate="1" x="-43.18" y="149.86"/>
 </instances>
 <busses>
 </busses>
